@@ -1,6 +1,32 @@
 import gradio as gr
 import yt_dlp
 import os
+import re
+from urllib.parse import urlparse, parse_qs
+
+# Створюємо папку для завантажень, якщо її немає
+DOWNLOAD_DIR = "downloads"
+if not os.path.exists(DOWNLOAD_DIR):
+    os.makedirs(DOWNLOAD_DIR)
+
+def clean_youtube_url(url):
+    """Очищає YouTube URL від параметрів плейлисту та інших параметрів."""
+    if not url:
+        return url
+    
+    # Видаляємо параметри плейлисту та інші непотрібні параметри
+    if 'youtube.com' in url or 'youtu.be' in url:
+        # Для youtube.com/watch?v=VIDEO_ID&list=...
+        if 'watch?v=' in url:
+            video_id = url.split('watch?v=')[1].split('&')[0]
+            return f"https://www.youtube.com/watch?v={video_id}"
+        
+        # Для youtu.be/VIDEO_ID?list=...
+        elif 'youtu.be/' in url:
+            video_id = url.split('youtu.be/')[1].split('?')[0]
+            return f"https://www.youtube.com/watch?v={video_id}"
+    
+    return url
 
 # Створюємо папку для завантажень, якщо її немає
 DOWNLOAD_DIR = "downloads"
@@ -16,6 +42,9 @@ def get_quality_options(url):
             gr.update(value="Будь ласка, введіть URL відео")
         ]
     
+    # Очищаємо URL від параметрів плейлисту
+    clean_url = clean_youtube_url(url.strip())
+    
     # Пропонуємо заздалегідь визначені, надійні варіанти якості
     quality_choices = [
         ("Найкраща якість (Відео+Аудіо, може вимагати ffmpeg)", "bestvideo+bestaudio/best"),
@@ -30,7 +59,7 @@ def get_quality_options(url):
     return [
         gr.update(choices=quality_choices, value=quality_choices[0][1], visible=True),
         gr.update(visible=True),
-        gr.update(value="Формати готові. Виберіть якість і натисніть 'Завантажити'.")
+        gr.update(value=f"Формати готові. Виберіть якість і натисніть 'Завантажити'.\nОчищений URL: {clean_url}")
     ]
 
 
@@ -40,7 +69,10 @@ def download_video(url, quality_selector):
         yield "Помилка: URL або якість не вибрано."
         return
     
-    yield "Завантаження розпочато... Це може зайняти деякий час."
+    # Очищаємо URL від параметрів плейлисту
+    clean_url = clean_youtube_url(url.strip())
+    
+    yield f"Завантаження розпочато...\nОчищений URL: {clean_url}"
     
     try:
         # Налаштування для yt-dlp
@@ -50,6 +82,9 @@ def download_video(url, quality_selector):
             'merge_output_format': 'mp4',
             'postprocessor_args': [],
             'progress_hooks': [lambda d: print(f">>> {d.get('_percent_str', '0%')} of ~{d.get('_total_bytes_str', 'unknown')} at {d.get('_speed_str', 'unknown')}", end="\r") if d.get('status') == 'downloading' else None],
+            # Важливо: обмежуємо завантаження тільки одним відео
+            'playlistend': 1,
+            'noplaylist': True,
         }
 
         # Якщо користувач хоче mp3, додаємо відповідний пост-процесор
@@ -61,7 +96,7 @@ def download_video(url, quality_selector):
             }]
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(url, download=True)
+            info = ydl.extract_info(clean_url, download=True)
             filename = ydl.prepare_filename(info)
             
         yield f"✅ Завантаження завершено! Файл збережено як: {os.path.basename(filename)}"
@@ -88,6 +123,7 @@ with gr.Blocks(theme=gr.themes.Soft(), title="YouTube Downloader") as demo:
     4. **Натисніть "Завантажити"** для початку завантаження
     
     **💡 Порада:** Для найкращої якості встановіть [ffmpeg](https://ffmpeg.org/download.html)
+    **🔧 Автоматично:** Програма автоматично очищає URL від параметрів плейлисту
     """)
 
     with gr.Row():
