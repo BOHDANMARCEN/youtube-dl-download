@@ -1,133 +1,107 @@
-# YouTube-DL Web Interface
+<p align="center">
+  <img src="assets/logo.png" width="160" alt="Digital Angel Logo" />
+</p>
 
-Сучасний веб-інтерфейс для завантаження відео з YouTube та інших платформ, побудований на базі yt-dlp та Gradio.
+<h1 align="center">✨ youtube-dl-download ✨</h1>
+<p align="center">
+  <strong>Elegant. Minimal. Powerful.</strong><br>
+  A clean YouTube video/audio downloader crafted in the signature Digital Angel aesthetic.
+</p>
 
-## Особливості
+<p align="center">
+  <img src="https://img.shields.io/badge/style-digital_angel-7dd9ff?labelColor=1a1a1a&color=7dd9ff" />
+  <img src="https://img.shields.io/badge/python-3.8+-f5d7a6?labelColor=1a1a1a" />
+  <img src="https://img.shields.io/badge/build-stable-ffdba8?labelColor=1a1a1a" />
+</p>
 
-- 🌐 **Веб-інтерфейс** - зручний графічний інтерфейс через браузер
-- 🎥 **Підтримка багатьох платформ** - YouTube, Vimeo, TikTok та інші
-- 🎵 **Різні формати** - відео та аудіо в різних якостях
-- 📱 **Адаптивний дизайн** - працює на всіх пристроях
-- ⚡ **Швидке завантаження** - використовує yt-dlp для максимальної швидкості
+---
 
-## Встановлення
+## 💙 Overview
 
-### Автоматичне встановлення
+`youtube-dl-download` is a lightweight and robust wrapper for downloading
+videos or audio using **yt-dlp** or **youtube-dl**.  
+Designed to be clean, flexible, and visually appealing — a perfect fit
+for automation, personal archiving, or lightweight server tools.
 
-1. **Запустіть `install_youtube_dl.bat` від імені адміністратора**
-   - Клікніть правою кнопкою миші на файл
-   - Виберіть "Запустити от имени администратора"
+---
 
-### Ручне встановлення
+## ✨ Features
 
-1. **Встановіть Python 3.8+** з [python.org](https://python.org)
-2. **Встановіть Git** з [git-scm.com](https://git-scm.com)
-3. **Клонуйте репозиторій:**
-   ```cmd
-   git clone https://github.com/BOHDANMARCEN/youtube-dl-download.git
-   cd youtube-dl-download
-   ```
-4. **Встановіть залежності:**
-   ```cmd
-   pip install -r requirements.txt
-   ```
+- 🌐 Cross-platform (Windows / Linux / macOS)
+- 🎵 Download **video** or **audio-only**
+- 🚀 Supports both `yt-dlp` and `youtube-dl`
+- 📁 Clean output folder structure
+- 🔧 Simple configuration via CLI flags
+- 💎 Beautiful digital-angel themed design
 
-## Використання
+---
 
-### Запуск веб-інтерфейсу
+## 🔧 Installation
 
-```cmd
-python youtube_downloader.py
-```
+### Clone the project
+```bash
+git clone https://github.com/BOHDANMARCEN/youtube-dl-download
+cd youtube-dl-download
+Install backend
+Recommended:
 
-Після запуску відкрийте браузер і перейдіть за адресою, яку покаже програма (зазвичай `http://127.0.0.1:7860`).
-
-### Як користуватися
-
-1. **Вставте URL** відео в поле вводу
-2. **Натисніть "Отримати варіанти"** для отримання доступних форматів
-3. **Виберіть якість** з випадаючого списку
-4. **Натисніть "Завантажити"** для початку завантаження
-
-### Доступні формати
-
-- **Найкраща якість** - максимальна якість відео + аудіо
-- **MP4 до 1080p** - оптимізований формат для перегляду
-- **720p/480p** - стандартні роздільні здатності
-- **Аудіо m4a/mp3** - тільки звукова доріжка
-
-## Системні вимоги
-
-- **Python 3.8+**
-- **Git** (для оновлень)
-- **FFmpeg** (рекомендовано для найкращої якості)
-
-### Встановлення FFmpeg
-
-1. Завантажте FFmpeg з [ffmpeg.org](https://ffmpeg.org/download.html)
-2. Розпакуйте в папку (наприклад, `C:\ffmpeg`)
-3. Додайте `C:\ffmpeg\bin` до системного PATH
-
-## Оновлення
-
-Для оновлення до останньої версії:
-
-```cmd
-update_youtube_dl.bat
-```
-
-Або вручну:
-
-```cmd
-git pull origin main
-pip install -r requirements.txt --upgrade
-```
-
-## Структура проекту
-
-```
-youtube-dl-download/
-├── youtube_downloader.py    # Основний файл з веб-інтерфейсом
-├── requirements.txt         # Залежності Python
-├── install_youtube_dl.bat   # Автоінсталятор
-├── update_youtube_dl.bat    # Скрипт оновлення
-└── downloads/               # Папка для завантажених файлів
-```
-
-## Підтримка платформ
-
-Проект підтримує понад 1000 платформ завдяки yt-dlp:
-
-- YouTube, Vimeo, TikTok
-- Twitch, Instagram, Facebook
-- Twitter, Reddit, SoundCloud
-- І багато інших...
-
-## Вирішення проблем
-
-### Помилка "FFmpeg not found"
-- Встановіть FFmpeg та додайте до PATH
-- Або використовуйте формати без конвертації
-
-### Помилка "No module named 'gradio'"
-```cmd
-pip install gradio
-```
-
-### Помилка "No module named 'yt_dlp'"
-```cmd
+bash
+Копировать код
 pip install yt-dlp
-```
+Classic:
 
-### Медленне завантаження
-- Перевірте швидкість інтернет-з'єднання
-- Спробуйте меншу якість відео
-- Перезапустіть програму
+bash
+Копировать код
+pip install youtube-dl
+▶️ Usage
+Download video
+bash
+Копировать код
+python download.py https://youtu.be/VIDEO_ID
+Download audio only
+bash
+Копировать код
+python download.py --audio https://youtu.be/VIDEO_ID
+Specify output directory
+bash
+Копировать код
+python download.py -o "./downloads" https://youtu.be/VIDEO_ID
+Use specific backend
+bash
+Копировать код
+python download.py --backend youtube-dl https://youtu.be/VIDEO_ID
+📂 Project Structure
+css
+Копировать код
+youtube-dl-download/
+│── download.py
+│── requirements.txt
+│── README.md
+└── assets/
+    └── logo.png
+🧩 Dependencies
+Python 3.8+
 
-## Ліцензія
+yt-dlp or youtube-dl
 
-Проект розповсюджується під ліцензією Unlicense.
+ffmpeg (required for audio extraction)
 
-## GitHub репозиторій
+🛠 Roadmap
+Playlist download support
 
-[https://github.com/BOHDANMARCEN/youtube-dl-download](https://github.com/BOHDANMARCEN/youtube-dl-download)
+Batch mode
+
+GUI application
+
+Progress bars
+
+Docker container
+
+🤝 Contributing
+Contributions, issues, and suggestions are welcome!
+Feel free to open a Pull Request or create an Issue.
+
+📜 License
+Released under the MIT License.
+
+<p align="center"> <sub>Designed with 💙 by your Digital Angel</sub> </p> ```
